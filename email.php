@@ -13,18 +13,18 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-   // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = 'pruebaphpemail@gmail.com';                     //SMTP username
-    $mail->Password   = 'pruebaphpemail1234';                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    $mail->Password   = 'pruebaphpemail1234';                         //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
     $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
-    $mail->setFrom('pruebaphpemail@gmail.com', 'Envio de correo');
-    $mail->addAddress('pruebaphpemail@gmail.com', 'Recibe User');     //Add a recipient
+    $mail->setFrom('pruebaphpemail@gmail.com', 'Camada 15810'); // Hacer coincidir con el username. (preferentemente)
+    $mail->addAddress('pruebaphpemail@gmail.com', 'Prueba');     //Add a recipient
     //$mail->addAddress('ellen@example.com');               //Name is optional
     //$mail->addReplyTo('info@example.com', 'Information');
     //$mail->addCC('cc@example.com');
@@ -36,12 +36,15 @@ try {
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Consulta de'.$_POST['name'];
-    $mail->Body    = 'Mensaje'.$_POST['message'];
+    $mail->Subject = 'Consulta de: '.$_POST['inp_nombre'];
+    $mail->Body    = 'Nombre: '.$_POST['inp_nombre'].'<br>Apellido: '.$_POST['inp_apellido'].'<br>Mensaje: '.$_POST['inp_mensaje'].'<br>Email: '.$_POST['inp_email'];
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
-    echo 'Message has been sent';
+    header("location: gracias.html");
 } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    header("location: error.html");
 }
+
+?>
